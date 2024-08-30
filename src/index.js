@@ -4,13 +4,26 @@ module.exports = function check(str, bracketsConfig) {
    let array = [].concat(...bracketsConfig).join();
     console.log(array);
 
-        if (str.includes("{}") || str.includes("[]") || str.includes("()")) {
-          str = str.replace("{}", "");
-          str = str.replace("[]", "");
-          str = str.replace("()", "");
+      let stack = [];
+      let brackets = {
+          ')' : '(',
+          '}' : '{',
+          ']' : '['
+      };
 
-          console.log(str);
+      for (let i = 0; i < str.length; i++) {
+          const cur = str[i];
+
+          if(isClosedBracket(cur)) {
+              if (brackets[cur] !== stack.pop()) return false;
+          } else {
+              stack.push(cur);
+          }
       }
 
+      return stack.length === 0;
 
+      function isClosedBracket (char) {
+          return [')','}',']'].indexOf(char) > -1;
+      }
 }

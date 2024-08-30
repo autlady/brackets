@@ -4,5 +4,13 @@ module.exports = function check(str, bracketsConfig) {
    let array = [].concat(...bracketsConfig).join();
     console.log(array);
 
+        if (str.includes("{}") || str.includes("[]") || str.includes("()")) {
+          str = str.replace("{}", "");
+          str = str.replace("[]", "");
+          str = str.replace("()", "");
+
+          console.log(str);
+      }
+
 
 }

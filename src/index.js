@@ -4,6 +4,12 @@ module.exports = function check(str, bracketsConfig) {
    let array = [].concat(...bracketsConfig).join();
     console.log(array);
 
+          const bracketsNew = {};
+
+      for (let i = 0; i < array.length; i += 2) {
+        bracketsNew[array[i+1]] = array[i];
+      }
+
       let stack = [];
       let brackets = {
           ')' : '(',

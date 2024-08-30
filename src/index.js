@@ -1,35 +1,32 @@
 module.exports = function check(str, bracketsConfig) {
   if (str.length % 2 !== 0) return false;
+  
+    let array = [].concat(...bracketsConfig);
 
-   let array = [].concat(...bracketsConfig).join();
-    console.log(array);
+    const bracketsNew = {};
 
-          const bracketsNew = {};
-
-      for (let i = 0; i < array.length; i += 2) {
+    for (let i = 0; i < array.length; i += 2) {
         bracketsNew[array[i+1]] = array[i];
-      }
+    }
 
-      let stack = [];
-      let brackets = {
-          ')' : '(',
-          '}' : '{',
-          ']' : '['
-      };
+    let stack = [];
 
-      for (let i = 0; i < str.length; i++) {
-          const cur = str[i];
+    function isClosedBracket (char) {
+        let keysOfBrackets = [];
+        for (let key in bracketsNew) {
+          keysOfBrackets.push(key);
+        }
+        return keysOfBrackets.indexOf(char) > -1;
+    }
 
-          if(isClosedBracket(cur)) {
-              if (brackets[cur] !== stack.pop()) return false;
-          } else {
-              stack.push(cur);
-          }
-      }
-
-      return stack.length === 0;
-
-      function isClosedBracket (char) {
-          return [')','}',']'].indexOf(char) > -1;
-      }
+    for (let i = 0; i < str.length; i++) {
+        const cur = str[i];
+        if (isClosedBracket(cur)) {
+            if (bracketsNew[cur] !== stack.pop()) return false;
+        } else {
+            stack.push(cur);
+        }
+    }
+    
+    return stack.length === 0;
 }
